@@ -6,9 +6,10 @@ function Quiz(props) {
   const { quiz, selectedAnswer } = props
   const answers = (quiz ? quiz.answers : null)
 
-  useEffect(() => {
-    props.fetchQuiz()
-  }, [])
+  
+  !quiz ? useEffect(() => {
+      props.fetchQuiz()
+    }, []) : null
 
   const clickSelected = (answer) => {
     props.selectAnswer(answer)
@@ -37,7 +38,7 @@ function Quiz(props) {
               ))}
             </div>
 
-            <button id="submitAnswerBtn" onClick={() => clickSubmit(selectedAnswer)} disabled={selectedAnswer ? false : true}>Submit answer</button>
+            <button id="submitAnswerBtn" onClick={() => clickSubmit(selectedAnswer)} disabled={!selectedAnswer}>Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }
