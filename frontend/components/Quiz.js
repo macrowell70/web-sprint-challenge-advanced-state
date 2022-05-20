@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux' 
+import * as actions from '../state/action-creators'
 
-export default function Quiz(props) {
+function Quiz(props) {
+  const { quiz, infoMessage, selectedAnswer } = props
+
+  useEffect(() => {
+    props.fetchQuiz()
+  }, [])
+
   return (
     <div id="wrapper">
       {
@@ -32,3 +40,13 @@ export default function Quiz(props) {
     </div>
   )
 }
+
+const mapState = (state) => {
+  return({
+    quiz: state.quiz,
+    selectedAnswer: state.selectedAnswer,
+    infoMessage: state.infoMessage
+  })
+}
+
+export default connect(mapState, actions)(Quiz)
