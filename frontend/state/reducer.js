@@ -5,6 +5,12 @@ import * as types from './action-types';
 const initialWheelState = 0
 function wheel(state = initialWheelState, action) {
   switch(action.type) {
+    case types.MOVE_CLOCKWISE: {
+      return state < 5 ? state = state + 1 : state = 0
+    }
+    case types.MOVE_COUNTERCLOCKWISE: {
+      return state > 0 ? state = state - 1 : state = 5 
+    }
     default:
       return state
   }
