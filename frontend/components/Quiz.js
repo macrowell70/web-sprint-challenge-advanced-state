@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 import * as actions from '../state/action-creators'
 
 function Quiz(props) {
-  const { quiz, infoMessage, selectedAnswer } = props
+  const { quiz, infoMessage } = props
   const answers = (quiz ? quiz.answers : null)
 
   useEffect(() => {
     props.fetchQuiz()
   }, [])
 
-  console.log(answers)
-
+  
   // console.log(answers[0].text, answers[1].text)
 
   return (
@@ -26,7 +25,10 @@ function Quiz(props) {
               {answers.map(answer => (
                   <div className="answer" key={answer.answer_id}>
                     {answer.text}
-                  <button>Select</button>
+                  <button onClick={() => props.postAnswer({
+                    "quiz_id": quiz.quiz_id, 
+                    "answer_id": answer.answer_id
+                    })}>Select</button>
                   </div>
               ))}
             </div>
@@ -43,7 +45,6 @@ function Quiz(props) {
 const mapState = (state) => {
   return({
     quiz: state.quiz,
-    selectedAnswer: state.selectedAnswer,
     infoMessage: state.infoMessage
   })
 }
