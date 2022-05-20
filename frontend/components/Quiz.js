@@ -10,13 +10,19 @@ function Quiz(props) {
     props.fetchQuiz()
   }, [])
 
+  const clickSelected = (answer) => {
+    props.postAnswer({
+      "quiz_id": quiz.quiz_id,
+      "answer_id": answer.answer_id
+    })
+  }
+
   
   // console.log(answers[0].text, answers[1].text)
 
   return (
     <div id="wrapper">
       {
-        // quiz already in state? Let's use that, otherwise render "Loading next quiz..."
         quiz ? (
           <>
             <h2>{quiz.question}</h2>
@@ -25,10 +31,7 @@ function Quiz(props) {
               {answers.map(answer => (
                   <div className="answer" key={answer.answer_id}>
                     {answer.text}
-                  <button onClick={() => props.postAnswer({
-                    "quiz_id": quiz.quiz_id, 
-                    "answer_id": answer.answer_id
-                    })}>Select</button>
+                  <button onClick={() => clickSelected(answer)}>Select</button>
                   </div>
               ))}
             </div>
