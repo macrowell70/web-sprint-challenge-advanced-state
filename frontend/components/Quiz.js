@@ -3,24 +3,23 @@ import { connect } from 'react-redux'
 import * as actions from '../state/action-creators'
 
 function Quiz(props) {
-  const { quiz } = props
+  const { quiz, selectedAnswer } = props
   const answers = (quiz ? quiz.answers : null)
 
   useEffect(() => {
     props.fetchQuiz()
   }, [])
 
-  console.log(quiz)
-
   const clickSelected = (answer) => {
+    props.selectAnswer(answer)
+  }
+
+  const clickSubmit = (answer) => {
     props.postAnswer({
       "quiz_id": quiz.quiz_id,
       "answer_id": answer.answer_id
     })
   }
-
-  
-  // console.log(answers[0].text, answers[1].text)
 
   return (
     <div id="wrapper">
@@ -31,15 +30,14 @@ function Quiz(props) {
 
             <div  id="quizAnswers">
               {answers.map(answer => (
-                  <div className="answer" key={answer.answer_id}>
+                  <div className={selectedAnswer && selectedAnswer.answer_id === answer.answer_id ? "answer selected" : "answer"} onClick={() => clickSelected(answer)} key={answer.answer_id}>
                     {answer.text}
-                  <button onClick={() => clickSelected(answer)}>Select</button>
+                  <button>{selectedAnswer && selectedAnswer.answer_id === answer.answer_id ? "SELECTED" : "Select"}</button>
                   </div>
               ))}
             </div>
-              {/* <div className="answer selected" */}
 
-            <button id="submitAnswerBtn">Submit answer</button>
+            <button id="submitAnswerBtn" onClick={() => clickSubmit(selectedAnswer)}>Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }
@@ -50,6 +48,7 @@ function Quiz(props) {
 const mapState = (state) => {
   return({
     quiz: state.quiz,
+    selectedAnswer: state.selectedAnswer
   })
 }
 
