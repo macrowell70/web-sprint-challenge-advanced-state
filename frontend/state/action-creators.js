@@ -31,9 +31,10 @@ export function setMessage(message) {
   }
 }
 
-export function setQuiz() { 
+export function setQuiz(quiz) { 
   return {
     type: types.SET_QUIZ_INTO_STATE,
+    payload: quiz
   }
 }
 
@@ -44,20 +45,26 @@ export function resetForm() { }
 // ❗ Async action creators
 export function fetchQuiz() {
   return function (dispatch) {
+    dispatch(setQuiz(null))
     axios.get(url + 'next')
     .then(res => {
-      console.log(res)
+      const quiz = res.data
+      dispatch(setQuiz(quiz))
     })
     .catch (err => {
       console.log(err)
     })
-    // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
-    // On successful GET:
-    // - Dispatch an action to send the obtained quiz to its state
   }
 }
-export function postAnswer() {
+export function postAnswer(answer) {
   return function (dispatch) {
+    axios.post(url + 'answer', answer)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
