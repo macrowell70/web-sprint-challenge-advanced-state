@@ -60,7 +60,10 @@ export function postAnswer(answer) {
   return function (dispatch) {
     axios.post(url + 'answer', answer)
     .then(res => {
-      console.log(res)
+      const answerMessage = res.data.message
+      dispatch(selectAnswer(answer))
+      dispatch(setMessage(answerMessage))
+      dispatch(fetchQuiz())
     })
     .catch(err => {
       console.log(err)
