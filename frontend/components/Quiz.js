@@ -22,6 +22,13 @@ function Quiz(props) {
     })
   }
 
+  const handleTernary = ( answer, ifTrue, ifFalse) => {
+    return selectedAnswer 
+      && selectedAnswer.answer_id
+       === answer.answer_id ?
+      ifTrue : ifFalse
+  }
+
   return (
     <div id="wrapper">
       {
@@ -31,14 +38,18 @@ function Quiz(props) {
 
             <div  id="quizAnswers">
               {answers.map(answer => (
-                  <div className={selectedAnswer && selectedAnswer.answer_id === answer.answer_id ? "answer selected" : "answer"} onClick={() => clickSelected(answer)} key={answer.answer_id}>
+                  <div className={handleTernary(answer, "answer selected", "answer")} 
+                  onClick={() => clickSelected(answer)} 
+                  key={answer.answer_id}>
                     {answer.text}
-                  <button>{selectedAnswer && selectedAnswer.answer_id === answer.answer_id ? "SELECTED" : "Select"}</button>
+                  <button>{handleTernary(answer, "SELECTED", "Select")}</button>
                   </div>
               ))}
             </div>
 
-            <button id="submitAnswerBtn" onClick={() => clickSubmit(selectedAnswer)} disabled={!selectedAnswer}>Submit answer</button>
+            <button id="submitAnswerBtn" 
+              onClick={() => clickSubmit(selectedAnswer)}
+              disabled={!selectedAnswer}>Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }

@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 import * as actionCreators from '../state/action-creators'
 
 export function Form(props) {
-  const { newQuestion, newTrueAnswer, newFalseAnswer} = props.form
+  const { newQuestion, newTrueAnswer, newFalseAnswer } = props.form
+  const inputArray = ["newQuestion", "newTrueAnswer", "newFalseAnswer"]
+
+  
 
   const onChange = evt => {
     const { name, value } = evt.target
@@ -25,13 +28,54 @@ export function Form(props) {
       )
   }
 
+  const placeholder = (input) => {
+    switch(input) {
+      case "newQuestion": {
+        return "Enter question"
+      }
+      case "newTrueAnswer": {
+        return "Enter true answer"
+      }
+      case "newFalseAnswer": {
+        return "Enter false answer"
+      }
+      default: {
+        return null
+      }
+    }
+  }
+
+  const value = (input) => {
+    switch(input) {
+      case "newQuestion": {
+        return newQuestion
+      }
+      case "newTrueAnswer": {
+        return newTrueAnswer
+      }
+      case "newFalseAnswer": {
+        return newFalseAnswer
+      }
+      default: {
+        return null
+      }
+    }
+  }
+
 
   return (
     <form id="form" onSubmit={onSubmit}>
       <h2>Create New Quiz</h2>
-      <input maxLength={50} onChange={onChange} id="newQuestion" placeholder="Enter question" name="newQuestion" value={newQuestion} />
-      <input maxLength={50} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" name="newTrueAnswer" value={newTrueAnswer} />
-      <input maxLength={50} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" name="newFalseAnswer" value={newFalseAnswer} />
+      {inputArray.map((input, idx) => (
+        <input 
+          key={idx} 
+          maxLength={50} 
+          onChange={onChange} 
+          id={input} 
+          placeholder={placeholder(input)}
+          name={input} 
+          value={value(input)} />
+      ))}
       <button id="submitNewQuizBtn" disabled={disabled()} >Submit new quiz</button>
     </form>
   )
