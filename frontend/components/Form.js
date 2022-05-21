@@ -13,9 +13,9 @@ export function Form(props) {
   const onSubmit = evt => {
     evt.preventDefault()
     props.postQuiz({
-      question_text: newQuestion, 
-      true_answer_text: newTrueAnswer, 
-      false_answer_text: newFalseAnswer
+      question_text: newQuestion.trim(), 
+      true_answer_text: newTrueAnswer.trim(), 
+      false_answer_text: newFalseAnswer.trim()
     })
   }
 
